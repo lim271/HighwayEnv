@@ -1,9 +1,12 @@
 import os
+import sys
 import numpy as np
 from highway_env.envs import HighwayEnv
 from highway_env.utils import save_video, lmap
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from controller.hocbf import HOCBFQP
 from controller.utils import check_possible_lane_changes, get_polygon, signed_distance, Minkowski_sum
+sys.path.pop(-1)
 
 
 
@@ -114,4 +117,5 @@ if __name__=="__main__":
             obs, reward, terminated, truncated, info = env.step(action)
             if terminated:
                 break
-        np.save(os.path.join(savedir, f"episode_{i}.npy"), np.array(episode, dtype=object), allow_pickle=True)
+        os.mkdir(os.path.join(savedir, "raw"))
+        np.save(os.path.join(savedir, "raw", f"episode_{i}.npy"), np.array(episode, dtype=object), allow_pickle=True)
